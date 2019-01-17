@@ -11,6 +11,9 @@ export default class DataPoint extends Component {
     constructor(props){
       super(props);
       this.state = {
+        token: props.token,
+        chart: props.chart,
+        domain: props.domain,
         dp: '',
         clicked: false,
         options:props.options ? props.options : [
@@ -58,8 +61,14 @@ export default class DataPoint extends Component {
               <MenuItem value="hire-date">Hire Date</MenuItem> */}
             </Select>
           </FormControl>
-          {
-            this.state.clicked ? <PropOp/> : <div></div>
+          {this.state.clicked ?
+            <PropOp 
+            options_pr={this.state.options} 
+            chart={this.state.chart} 
+            token={this.state.token}
+            domain={this.state.domain}
+            dp={this.state.dp}/> 
+          : <div></div>
           }
         </form>
       );

@@ -4,6 +4,7 @@ import 'react-resizable/css/styles.css/';
 import React from "react";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import _ from "lodash";
+import PropOp from './PropOp';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -107,6 +108,7 @@ class RGL extends React.PureComponent {
   }
 
   render() {
+    //<PropOp add = {this.onAddItem} />
     return (
       <div style={{maxHeight: '100%'}}>
         <button onClick={this.onAddItem}>Add Item</button>

@@ -8,18 +8,30 @@ import Select from '@material-ui/core/Select';
 import {Text} from 'react';
 import Input from '@material-ui/core/Input';
 import ChartType from './ChartType';
+import RGL from './RGL';
+
+//import BarChart from './charts/BarChart';
+//import LineChart from './charts/LineChart';
+//import PieChart from './charts/PieChart';
 
 class Property extends Component {
   constructor(props){
     super(props);
     this.state = {
-      pr: ''
+      pr: '',
+      options_pr: props.options_pr ? props.options_pr : [
+        {property:'Location', employeeDataProperty:'Location'},
+        {property:'Hire_Date', employeeDataProperty:'HireDate'},
+        {property:'Salary', employeeDataProperty:'Salary'},
+        {property:'Location', employeeDataProperty:'Location'}
+    ]
     }
     this.handleChange.bind(this);
   };
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value })
+    this.props.action(this.state.pr)
   };
 
   render() {
@@ -38,10 +50,7 @@ class Property extends Component {
             displayEmpty
             name="pr"
           >
-            <MenuItem value="empID">Employee ID</MenuItem>
-            <MenuItem value="hire-date">Hire Date</MenuItem>
-            <MenuItem value="salary">Salary</MenuItem>
-            <MenuItem value="age">Age</MenuItem>
+          {this.state.options_pr.map(option => <MenuItem value={option.property}>{option.employeeDataProperty}</MenuItem>)}
           </Select>
         </FormControl>
       </div>
@@ -53,13 +62,21 @@ class Operation extends Component {
     constructor(props){
       super(props);
       this.state = {
-        op: ''
+        op: '',
+        pr: props.pr,
+        options_pr: props.options_pr ? props.options_pr : [
+          {property:'COUNT', allowedMeasureOperations:'COUNT'},
+          {property:'SUM', allowedMeasureOperations:'SUM'},
+          {property:'MAX', allowedMeasureOperations:'MAX'},
+          {property:'MIN', allowedMeasureOperations:'MIN'}
+      ]
       }
       this.handleChange.bind(this);
     };
   
     handleChange = event => {
       this.setState({ [event.target.name]: event.target.value });
+      this.props.action(this.state.op)
     };
   
     render() {
@@ -77,11 +94,7 @@ class Operation extends Component {
               displayEmpty
               name="op"
             >
-              <MenuItem value="COUNT">Count</MenuItem>
-              <MenuItem value="SUM">Sum</MenuItem>
-              <MenuItem value="AVG">Average</MenuItem>
-              <MenuItem value="MAX">Maximum</MenuItem>
-              <MenuItem value="MIN">Minimum</MenuItem>
+            {this.state.options_pr.map(option => <MenuItem value={option.allowedMeasureOperations}>{option.allowedMeasureOperations}</MenuItem>)}
             </Select>
           </FormControl>
         </div>
@@ -93,24 +106,65 @@ class Operation extends Component {
     constructor(props){
         super(props);
         this.state = {
-          clicked: false
+          clicked: false,
+          token: props.token,
+          chart: props.chart,
+          options_pr: props.options_pr,
+          domain: props.domain,
+          dp: props.dp,
+          pr:'',
+          op:''
         }
         this.addChart=this.addChart.bind(this);
+        this.handleProperty=this.handleProperty.bind(this);
+        this.handleOperation=this.handleOperation.bind(this);
+        this.resetForm=this.resetForm.bind(this);
+      };
+
+      handleProperty(val){
+        this.setState({pr: val})
+      };
+
+      handleOperation(value){
+        this.setState({op: value})
       };
     
-      addChart(){
+      addChart(chart){
         this.setState({
           clicked: true
+        })
+      /*  switch(chart){
+          case 'bar':
+            return <BarChart/>;
+          case 'line':
+            return <LineChart/>;
+          case 'pie':
+            return <PieChart/>;
+          default:
+            return <BarChart/>;
+        } */
+        //this.props.add();
+      }
+
+      resetForm(){
+        this.setState({
+          ChartType: '',
+          dp: '',
+          pr: '',
+          op: ''
         })
       }
 
     render () {
         return (
             <div>
-                <Property/> <Operation/> 
+                <Property options_pr={this.state.options_pr} action={this.handleProperty}/> 
+                <Operation options_pr={this.state.options_pr} pr={this.state.pr} action={this.handleOperation}/> 
                 <Button style={styles.buttonStyle} onClick={this.addChart}> Preview Chart </Button>
                 {
-                    this.state.clicked ? <Button style={styles.newStyle}> Add New Chart </Button> : <div></div>
+                    this.state.clicked ?
+                    <Button style={styles.newStyle} onClick={this.resetForm}> Add New Chart </Button> 
+                    : <div></div>
                 }
             </div>
     )}

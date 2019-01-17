@@ -39,7 +39,6 @@ export default class DomainName extends Component {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-    this.addChart();
   };
 
   addChart(){
@@ -56,7 +55,14 @@ export default class DomainName extends Component {
           <InputLabel shrink htmlFor="dom-label-placeholder" style={{paddingLeft: 30, height: 10}}>
             Domain Name
           </InputLabel>
-          <TextField onChange={this.handleChange}/>
+          <TextField 
+            onChange={this.handleChange} 
+            onKeyPress={event => {
+              if (event.key === 'Enter'){
+                this.addChart()
+              }
+            }}
+            />
         </FormControl>
         {
             this.state.clicked ? <ChartType domainName={this.state.dom} token={this.state.token}/> : <div></div>

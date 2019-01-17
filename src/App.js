@@ -14,13 +14,23 @@ var config = {
 firebase.initializeApp(config);
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      chart:'',
+      domain:'',
+      dp:'',
+      pr:'',
+      op:''
+    }
+  }
   render() {
     return (
       <div className="App">
         <h1> Dashboard Generator </h1>
         <div>
           <div className="form"><DomainName/></div>
-          <div className="dashboard"><RGL/></div>
+          <div className="dashboard"><RGL newChart={this.onAddItem}/></div>
         </div>
       </div>
     );

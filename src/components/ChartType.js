@@ -68,7 +68,7 @@ export default class ChartType extends Component {
           </Select>
         </FormControl>
         {
-            this.state.clicked ? <DataPoint options={this.state.options} /> : <div></div>
+            this.state.clicked ? <DataPoint options={this.state.options} chart={this.state.chart} domain={this.state.domain} /> : <div></div>
         }
       </div>
     );
