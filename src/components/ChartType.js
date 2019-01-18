@@ -22,7 +22,9 @@ export default class ChartType extends Component {
   };
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value },()=>{
+      this.props.setChartType(this.state.chart);
+    });
     this.addDP();
   };
 
@@ -42,9 +44,17 @@ export default class ChartType extends Component {
     });
   }
 
+  componentWillUpdate(nextProps , nextState){
+    if(this.state.token !== nextProps.token){
+      this.setState({token:nextProps.token});
+    }
+  }
+
   componentDidMount(){
     this.findQueryLimitations(this.state.domain).then((options)=>{
-        this.setState({options});
+        this.setState({options},()=>{
+          this.props.setOptions(this.state.options);
+        });
     })
   }
 
@@ -67,9 +77,7 @@ export default class ChartType extends Component {
             <MenuItem value="pie">Pie Chart</MenuItem>
           </Select>
         </FormControl>
-        {
-            this.state.clicked ? <DataPoint options={this.state.options} chart={this.state.chart} domain={this.state.domain} /> : <div></div>
-        }
+        
       </div>
     );
   }

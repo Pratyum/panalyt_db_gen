@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.8.1",
+    "@nivo/bar": "^0.52.0",
     "axios": "^0.18.0",
     "firebase": "^5.7.2",
     "react": "^16.7.0",

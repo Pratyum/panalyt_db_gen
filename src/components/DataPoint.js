@@ -26,10 +26,16 @@ export default class DataPoint extends Component {
       this.addPropOp=this.addPropOp.bind(this);
       this.handleChange.bind(this);
     };
-    
+    componentWillUpdate(nextProps, nextState){
+      if(nextProps.options !== this.state.options){
+        this.setState({options:nextProps.options})
+      }
+    }    
   
     handleChange = event => {
-      this.setState({ [event.target.name]: event.target.value });
+      this.setState({ [event.target.name]: event.target.value },()=>{
+        this.props.setDp(this.state.dp);
+      });
       this.addPropOp();
     };
   
@@ -61,15 +67,7 @@ export default class DataPoint extends Component {
               <MenuItem value="hire-date">Hire Date</MenuItem> */}
             </Select>
           </FormControl>
-          {this.state.clicked ?
-            <PropOp 
-            options_pr={this.state.options} 
-            chart={this.state.chart} 
-            token={this.state.token}
-            domain={this.state.domain}
-            dp={this.state.dp}/> 
-          : <div></div>
-          }
+          
         </form>
       );
     }

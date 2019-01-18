@@ -30,9 +30,12 @@ class Property extends Component {
   };
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
-    this.props.action(this.state.pr)
+    this.setState({ [event.target.name]: event.target.value },() => {
+      this.props.action(this.state.pr);
+    });
   };
+
+  
 
   render() {
     const { labelStyle } = styles;
@@ -69,14 +72,29 @@ class Operation extends Component {
           {property:'SUM', allowedMeasureOperations:'SUM'},
           {property:'MAX', allowedMeasureOperations:'MAX'},
           {property:'MIN', allowedMeasureOperations:'MIN'}
-      ]
+      ],
+      option_pr:{}
       }
       this.handleChange.bind(this);
     };
+
+    componentWillUpdate(nextProps , nextState){
+      if(this.props.pr != nextProps.pr){
+        
+        this.setState({pr:nextProps.pr},() => {
+            let option_pr  = this.state.options_pr.find(option => option.property == this.state.pr);
+            console.log(option_pr);
+            this.setState({option_pr});
+        });
+      }
+    }
   
     handleChange = event => {
-      this.setState({ [event.target.name]: event.target.value });
-      this.props.action(this.state.op)
+      
+      this.setState({ [event.target.name]: event.target.value },() => {
+        this.props.action(this.state.op);
+      });
+      
     };
   
     render() {
@@ -94,7 +112,7 @@ class Operation extends Component {
               displayEmpty
               name="op"
             >
-            {this.state.options_pr.map(option => <MenuItem value={option.allowedMeasureOperations}>{option.allowedMeasureOperations}</MenuItem>)}
+            {this.state.option_pr.allowedMeasureOperations && this.state.option_pr.allowedMeasureOperations.map(option => <MenuItem value={option}>{option}</MenuItem>)}
             </Select>
           </FormControl>
         </div>
@@ -102,7 +120,7 @@ class Operation extends Component {
     }
   }
 
-  export default class PropOp extends Component {
+export default class PropOp extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -121,12 +139,21 @@ class Operation extends Component {
         this.resetForm=this.resetForm.bind(this);
       };
 
+      componentWillUpdate(nextProps , nextState){
+        if(nextProps.options_pr != this.state.options_pr){
+          this.setState({options_pr:nextProps.options_pr});
+        }
+      }
+
       handleProperty(val){
+        console.log(val);
         this.setState({pr: val})
       };
 
       handleOperation(value){
-        this.setState({op: value})
+        this.setState({op: value},()=>{
+          this.props.setPrOp({pr:this.state.pr , op:this.state.op});
+        })
       };
     
       addChart(chart){
@@ -160,12 +187,6 @@ class Operation extends Component {
             <div>
                 <Property options_pr={this.state.options_pr} action={this.handleProperty}/> 
                 <Operation options_pr={this.state.options_pr} pr={this.state.pr} action={this.handleOperation}/> 
-                <Button style={styles.buttonStyle} onClick={this.addChart}> Preview Chart </Button>
-                {
-                    this.state.clicked ?
-                    <Button style={styles.newStyle} onClick={this.resetForm}> Add New Chart </Button> 
-                    : <div></div>
-                }
             </div>
     )}
   }

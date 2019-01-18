@@ -5,6 +5,7 @@ import React from "react";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import _ from "lodash";
 import PropOp from './PropOp';
+import BarChart from './charts/BarChart';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -15,7 +16,7 @@ class RGL extends React.PureComponent {
   static defaultProps = {
     className: "layout",
     cols: { lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 },
-    rowHeight: 10
+    rowHeight: 2
   };
 
   constructor(props) {
@@ -45,7 +46,8 @@ class RGL extends React.PureComponent {
       position: "absolute",
       right: "2px",
       top: 0,
-      cursor: "pointer"
+      cursor: "pointer",
+      color: '#24A69A'
     };
     const i = el.add ? "+" : el.i;
     return (
@@ -59,7 +61,7 @@ class RGL extends React.PureComponent {
             Add +
           </span>
         ) : (
-          <span className="text">{i}</span>
+          <BarChart/>
         )}
         <span
           className="remove"
@@ -81,8 +83,8 @@ class RGL extends React.PureComponent {
         i: "n" + this.state.newCounter,
         x: (this.state.items.length * 2) % (this.state.cols || 12),
         y: Infinity, // puts it at the bottom
-        w: 2,
-        h: 2
+        w: 3,
+        h: 15
       }),
       // Increment the counter to ensure key is always unique.
       newCounter: this.state.newCounter + 1

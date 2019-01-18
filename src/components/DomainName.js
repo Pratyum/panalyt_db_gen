@@ -16,12 +16,13 @@ export default class DomainName extends Component {
       clicked: false,
       token:''
     }
-    
     this.addChart=this.addChart.bind(this);
     this.handleChange.bind(this);
     // this.getToken.bind(this);
     // this.findQueryLimiations.bind(this);
   };
+
+
 
   componentDidMount(){
     this.getToken('aaliya@panalyt.com','Stay*211').then(token => {
@@ -38,13 +39,13 @@ export default class DomainName extends Component {
   }
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ domain: event.target.value },() => {
+        this.props.getChangeup({domain:this.state.domain , token:this.state.token});
+    });
   };
 
   addChart(){
-    this.setState({
-      clicked: true
-    })
+    this.props.addChart();
   }
 
   render() {
@@ -64,9 +65,6 @@ export default class DomainName extends Component {
             }}
             />
         </FormControl>
-        {
-            this.state.clicked ? <ChartType domainName={this.state.dom} token={this.state.token}/> : <div></div>
-        } 
       </div>
     );
   }
