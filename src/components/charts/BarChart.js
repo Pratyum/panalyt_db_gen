@@ -161,6 +161,7 @@ export default class BarChart extends Component {
         motionStiffness={90}
         motionDamping={15}
         padding={0.2}
+        style={{justifyContent:'flex', paddingTop: '0%'}}
         legends={[
             {
                 "dataFrom": "keys",
