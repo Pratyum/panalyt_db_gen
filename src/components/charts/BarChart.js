@@ -128,10 +128,10 @@ export default class BarChart extends Component {
         ]}
         indexBy="country"
         margin={{
-            "top": 50,
-            "right": 130,
-            "bottom": 50,
-            "left": 60
+            "top": 20,
+            "right": 20,
+            "bottom": 60,
+            "left": 50
         }}
         colors="nivo"
         colorBy="id"
@@ -168,13 +168,12 @@ export default class BarChart extends Component {
                 "direction": "row",
                 "anchor": 'bottom',
                 "justify": false,
-                "translateX": 20,
-                "translateY": 25,
-                "itemWidth": 20,
-                "itemHeight": 10,
+                "translateY": 55,
+                "itemWidth": 70,
+                "itemHeight": 15,
                 "itemDirection": "left-to-right",
                 "itemOpacity": 0.85,
-                "symbolSize": 20,
+                "symbolSize": 10,
                 "effects": [
                     {
                         "on": "hover",

@@ -44,18 +44,20 @@ class RGL extends React.PureComponent {
   createElement(el) {
     const removeStyle = {
       position: "absolute",
-      right: "2px",
+      right: "5px",
       top: 0,
       cursor: "pointer",
       color: '#24A69A'
     };
     const i = el.add ? "+" : el.i;
     return (
-      <div key={i} data-grid={el} style={{backgroundColor: '#82D2F5'}}>
+      <div key={i} data-grid={el} style={{ border: '1px solid black'}}>
         {el.add ? (
           <span
             className="add text"
             onClick={this.onAddItem}
+            position='absolute'
+            paddingRight={0}
             title="You can add an item by clicking here, too."
           >
             Add +
@@ -83,7 +85,7 @@ class RGL extends React.PureComponent {
         i: "n" + this.state.newCounter,
         x: (this.state.items.length * 2) % (this.state.cols || 12),
         y: Infinity, // puts it at the bottom
-        w: 3,
+        w: 5,
         h: 15
       }),
       // Increment the counter to ensure key is always unique.

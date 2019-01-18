@@ -7,7 +7,6 @@ import PropOp from './components/PropOp';
 import RGL from './components/RGL';
 import firebase from "firebase";
 import Button from '@material-ui/core/Button';
-import BarChart from './components/charts/BarChart';
 
 var config = {
   apiKey: "AIzaSyDr6DAoGxzCp2b2ICDMfuWgm8Wp80FGenY",
@@ -85,7 +84,7 @@ class App extends Component {
             }
             {this.state.pr !== '' && this.state.op !== '' && 
           <div>
-            <Button style={styles.buttonStyle} onClick={this.addChart}> Preview Chart </Button>
+            <Button style={styles.buttonStyle} onClick={this.props.newChart}> Preview Chart </Button>
             <Button style={styles.newStyle} onClick={this.resetForm}> Add New Chart </Button> 
           </div>
           }
